@@ -1,0 +1,19 @@
+# Secrets et configuration locale : ne jamais publier
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Fichiers téléversés par les utilisateurs
+uploads/
+
+# Éditeurs et système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

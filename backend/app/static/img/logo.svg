@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mémoria">
+  <rect width="64" height="64" rx="14" fill="#0f5c8c"/>
+  <path d="M13 19c6.5-2.5 14-2.2 19 2.2v27.3c-5-4.2-12.5-4.5-19-2z" fill="#ffffff"/>
+  <path d="M51 19c-6.5-2.5-14-2.2-19 2.2v27.3c5-4.2 12.5-4.5 19-2z" fill="#dbeaf5"/>
+  <path d="M32 22v27" stroke="#d97706" stroke-width="3.2" stroke-linecap="round"/>
+</svg>

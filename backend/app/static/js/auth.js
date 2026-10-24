@@ -5,6 +5,7 @@
 
   function vue(onConnecte, message) {
     let onglet = "etudiant";
+    let preRemplissage = null;   // compte de test choisi : valeurs à placer dans le formulaire
     const boite = h("div", { class: "boite-connexion" });
     const racine = h("div", { class: "page-connexion" }, boite);
 
@@ -30,6 +31,13 @@
           ];
       const bouton = h("button", { class: "btn btn-primaire", type: "submit", style: "width:100%" }, "Se connecter");
       const form = h("form", null, erreur, champs, bouton);
+      if (preRemplissage) {
+        for (const [nom, valeur] of Object.entries(preRemplissage)) {
+          const saisie = form.querySelector(`[name="${nom}"]`);
+          if (saisie) saisie.value = valeur;
+        }
+        preRemplissage = null;
+      }
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const donnees = Object.fromEntries(new FormData(form).entries());
@@ -51,6 +59,34 @@
       return form;
     }
 
+    // Comptes de test (mode démonstration) : un clic remplit le formulaire, « Se connecter » valide.
+    function panneauDemo() {
+      const comptes = CD.config.comptesDemo || [];
+      if (!comptes.length) return null;
+      const choisir = (compte) => {
+        if (compte.role === "ETUDIANT") {
+          onglet = "etudiant";
+          preRemplissage = { prenom: compte.prenom, nom: compte.nom, email: compte.email, code_etudiant: compte.code_etudiant };
+        } else {
+          onglet = "personnel";
+          preRemplissage = { email: compte.email, mot_de_passe: compte.mot_de_passe };
+        }
+        rendre();
+      };
+      return h("div", { class: "comptes-demo" },
+        h("div", { class: "comptes-demo-titre" }, "Comptes de test"),
+        h("p", { class: "comptes-demo-aide" }, "Aucune inscription nécessaire : cliquez sur un profil, puis sur « Se connecter »."),
+        comptes.map((compte) => {
+          const identifiants = compte.role === "ETUDIANT"
+            ? `${compte.email} · code ${compte.code_etudiant}`
+            : `${compte.email} · ${compte.mot_de_passe}`;
+          return h("button", { type: "button", class: "compte-demo", onclick: () => choisir(compte) },
+            h("span", { class: "compte-demo-role" }, compte.libelle),
+            h("span", { class: "compte-demo-desc" }, compte.description),
+            h("span", { class: "compte-demo-id" }, identifiants));
+        }));
+    }
+
     function rendre() {
       const onglets = h("div", { class: "onglets", role: "tablist" },
         [["etudiant", "Étudiant"], ["personnel", "Gestionnaire / Admin"]].map(([id, libelle]) =>
@@ -60,6 +96,7 @@
         h("h1", null, CD.config.nom),
         h("p", { class: "sous-titre" }, CD.config.sousTitre),
         message ? h("div", { class: "info-connexion" }, message) : null,
+        panneauDemo(),
         onglets,
         formulaire()
       );

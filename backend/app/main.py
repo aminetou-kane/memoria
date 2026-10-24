@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from .config import settings
+from .demo import comptes_demo, completer_demo, preparer_demo
 from .database import ouvrir_connexion
 from .exceptions import ErreurMetier
 from .routers import auth, documents, recherche, statistiques, telechargements, ufr, users
@@ -33,7 +34,11 @@ def initialiser_admin() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    if settings.demo_mode:
+        preparer_demo()          # crée les tables si la base est vide
     initialiser_admin()
+    if settings.demo_mode:
+        completer_demo()         # données fictives + PDF
     yield
 
 
@@ -46,7 +51,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=settings.cors_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -71,7 +76,10 @@ app.include_router(statistiques.router)
 
 @app.get("/sante", tags=["Santé"])
 def sante():
-    return {"application": settings.app_nom, "sous_titre": settings.app_sous_titre, "statut": "ok"}
+    reponse = {"application": settings.app_nom, "sous_titre": settings.app_sous_titre, "statut": "ok"}
+    if settings.demo_mode:
+        reponse["comptes_demo"] = comptes_demo()
+    return reponse
 
 
 @app.get("/", include_in_schema=False)

@@ -207,3 +207,13 @@ details.filtres .ligne-champs { margin-top: 12px; }
 .toast { background: #1e293b; color: #fff; padding: 10px 14px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0, 0, 0, .3); font-size: .92rem; }
 .toast-succes { background: var(--ok); }
 .toast-erreur { background: var(--danger); }
+
+/* Comptes de test de la page de connexion (mode démonstration) */
+.comptes-demo { background: var(--info-fond); border: 1px dashed var(--info); border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+.comptes-demo-titre { font-weight: 700; color: var(--bleu-fonce); font-size: .95rem; }
+.comptes-demo-aide { margin: 2px 0 10px; font-size: .82rem; color: var(--texte-doux); }
+.compte-demo { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; text-align: left; margin-top: 6px; padding: 8px 10px; background: #fff; border: 1px solid #d5dde6; border-radius: 8px; cursor: pointer; font: inherit; }
+.compte-demo:hover, .compte-demo:focus-visible { border-color: var(--bleu-fonce); box-shadow: var(--ombre); }
+.compte-demo-role { font-weight: 700; color: var(--bleu-fonce); font-size: .9rem; }
+.compte-demo-desc { font-size: .8rem; color: var(--texte-doux); }
+.compte-demo-id { font-size: .76rem; color: var(--texte-doux); font-family: ui-monospace, Consolas, monospace; word-break: break-all; }

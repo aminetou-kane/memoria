@@ -1,3 +1,5 @@
+import ssl
+
 import pymysql
 from pymysql.cursors import DictCursor
 
@@ -9,16 +11,17 @@ ERREUR_DOUBLON = 1062  # code MySQL "Duplicate entry"
 class Connexion:
     """Petite enveloppe autour de PyMySQL : execute() renvoie directement un curseur."""
 
-    def __init__(self):
+    def __init__(self, avec_base: bool = True):
         self._conn = pymysql.connect(
             host=settings.db_host,
             port=settings.db_port,
             user=settings.db_user,
             password=settings.db_password,
-            database=settings.db_name,
+            database=settings.db_name if avec_base else None,
             charset="utf8mb4",
             cursorclass=DictCursor,
             autocommit=False,
+            ssl=ssl.create_default_context() if settings.db_ssl else None,
         )
 
     def execute(self, sql, params=None):
@@ -36,8 +39,8 @@ class Connexion:
         self._conn.close()
 
 
-def ouvrir_connexion() -> Connexion:
-    return Connexion()
+def ouvrir_connexion(avec_base: bool = True) -> Connexion:
+    return Connexion(avec_base)
 
 
 def est_doublon(erreur: Exception) -> bool:

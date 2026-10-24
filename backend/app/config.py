@@ -24,10 +24,18 @@ class Settings:
     db_user: str = os.getenv("DB_USER", "root")
     db_password: str = os.getenv("DB_PASSWORD", "")
     db_name: str = os.getenv("DB_NAME", "centre_doc")
+    # Bases MySQL hébergées (TiDB Cloud, Aiven, PlanetScale...) : connexion chiffrée obligatoire
+    db_ssl: bool = os.getenv("DB_SSL", "false").strip().lower() in ("1", "true", "oui", "yes")
+
+    # Mode démonstration (déploiement pour recruteurs) : affiche des comptes de test sur la page de connexion,
+    # crée la base et les données fictives au démarrage. À laisser à "false" hors démonstration.
+    demo_mode: bool = os.getenv("DEMO_MODE", "false").strip().lower() in ("1", "true", "oui", "yes")
 
     # Nom affiché dans l'interface (page de connexion, en-tête, onglet du navigateur)
     app_nom: str = os.getenv("APP_NOM", "Mémoria")
     app_sous_titre: str = os.getenv("APP_SOUS_TITRE", "Gestion et recherche des thèses et mémoires")
+
+    cors_origins: list = [o.strip() for o in os.getenv("CORS_ORIGINS", "http://localhost:4200").split(",") if o.strip()]
 
     jwt_secret: str = os.getenv("JWT_SECRET", "change-me-en-production-secret-de-32-caracteres-minimum")
     jwt_expire_minutes: int = int(os.getenv("JWT_EXPIRE_MINUTES", "480"))

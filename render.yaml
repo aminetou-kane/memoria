@@ -1,0 +1,29 @@
+# Déploiement sur Render (plan gratuit) : https://render.com > New > Blueprint > choisir ce dépôt.
+# La base MySQL est hébergée ailleurs (ex. TiDB Cloud, gratuit) : renseigner les variables marquées sync: false.
+services:
+  - type: web
+    name: memoria
+    runtime: docker
+    plan: free
+    healthCheckPath: /sante
+    envVars:
+      - key: DEMO_MODE
+        value: "true"
+      - key: DB_SSL
+        value: "true"
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: memoria
+      - key: ADMIN_EMAIL
+        value: admin@ugb.edu.sn
+      - key: ADMIN_PASSWORD
+        value: Demo2026!
+      - key: JWT_SECRET
+        generateValue: true

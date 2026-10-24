@@ -85,7 +85,7 @@ L'application est volontairement simple à installer : **une seule commande** la
 - **Règles métier explicites** : chaque règle violée lève une exception dédiée et renvoie un message JSON clair.
 - **29 tests automatisés**, exécutés à chaque envoi sur GitHub.
 
-> Projet de démonstration : avant tout déploiement réel, il faudrait en plus limiter les tentatives de connexion, activer HTTPS et remplacer les mots de passe et le secret JWT par défaut.
+> Projet de démonstration : avant tout déploiement avec de vraies données, il faudrait en plus limiter les tentatives de connexion, activer HTTPS et remplacer les mots de passe et le secret JWT par défaut.
 
 ## Démarrage rapide
 
@@ -128,6 +128,22 @@ python scripts\donnees_demo.py supprimer
 - Étudiant d'exemple : Mariama Fall, `demo.mariama.fall@ugb.edu.sn`, code `DMO2026001`.
 - Seuls les comptes commençant par `demo.` sont créés puis supprimés : le reste de la base n'est jamais touché.
 - Les captures d'écran de ce dépôt se régénèrent avec `pip install playwright` puis `python scripts\captures.py` (Microsoft Edge ou Chrome requis).
+
+## Déploiement en ligne (démonstration)
+
+L'application est prévue pour une démonstration publique : avec `DEMO_MODE=true`, la page de connexion affiche un encadré **Comptes de test** (étudiant, gestionnaire, administrateur) et un recruteur peut tout essayer sans créer de compte. Au démarrage, l'application crée elle-même les tables et charge les données fictives.
+
+Une configuration gratuite possible : **Render** pour l'application (Dockerfile + `render.yaml` fournis) et **TiDB Cloud Serverless** pour la base (compatible MySQL).
+
+1. **Base de données** : créer un cluster TiDB Cloud Serverless, puis un utilisateur et une base nommée `memoria`. Noter l'hôte, le port (4000), l'utilisateur et le mot de passe.
+2. **Application** : sur Render, *New > Blueprint*, choisir ce dépôt. Renseigner `DB_HOST`, `DB_USER` et `DB_PASSWORD`. `DEMO_MODE`, `DB_SSL` et `JWT_SECRET` sont déjà réglés par `render.yaml`.
+3. Ouvrir l'adresse fournie par Render : au premier démarrage, la base est initialisée (environ une minute).
+
+Points à connaître :
+
+- Le plan gratuit de Render met l'application en veille après 15 minutes sans visite : la première requête suivante prend quelques dizaines de secondes. Le disque est aussi effacé au redémarrage ; les PDF fictifs sont donc régénérés automatiquement au démarrage.
+- Les comptes de test sont publics : ne jamais activer `DEMO_MODE` sur une base contenant de vraies données.
+- Hors démonstration, laisser `DEMO_MODE=false` et choisir un vrai mot de passe administrateur.
 
 ## Tests
 
@@ -172,7 +188,7 @@ La liste complète des routes, des paramètres de recherche et des statistiques 
 - [ ] Recherche sémantique (par le sens)
 - [ ] Résumé automatique des documents
 - [ ] Assistant de questions-réponses avec citations, respectant les droits d'accès
-- [ ] Déploiement en ligne
+- [x] Déploiement en ligne (mode démonstration avec comptes de test)
 
 ## Contexte du projet
 

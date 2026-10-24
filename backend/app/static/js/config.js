@@ -5,6 +5,7 @@
   CD.config = {
     nom: "Mémoria",
     sousTitre: "Gestion et recherche des thèses et mémoires",
+    comptesDemo: [],   // rempli par le serveur seulement en mode démonstration (DEMO_MODE=true)
     async charger() {
       try {
         const reponse = await fetch("/sante");
@@ -12,6 +13,7 @@
           const donnees = await reponse.json();
           if (donnees.application) this.nom = donnees.application;
           if (donnees.sous_titre) this.sousTitre = donnees.sous_titre;
+          this.comptesDemo = Array.isArray(donnees.comptes_demo) ? donnees.comptes_demo : [];
         }
       } catch (e) { /* on garde les valeurs de secours */ }
       document.title = this.nom;

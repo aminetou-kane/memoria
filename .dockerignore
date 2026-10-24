@@ -1,0 +1,9 @@
+.git
+.github
+docs
+**/__pycache__
+**/.pytest_cache
+**/.venv
+backend/.env
+backend/uploads
+backend/tests

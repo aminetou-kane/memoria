@@ -4,7 +4,9 @@
 
 <h1 align="center">Mémoria</h1>
 
-**Démo en ligne : https://memoria-e76r.onrender.com** (les comptes de test sont affichés sur la page de connexion ; la première ouverture peut prendre 30 à 50 secondes, le temps que le serveur se réveille.)
+**Démo en ligne : https://memoria-e76r.onrender.com** 
+
+(les comptes de test sont affichés sur la page de connexion ; la première ouverture peut prendre 30 à 50 secondes, le temps que le serveur se réveille.)
 
 <p align="center">
   Plateforme de gestion et de recherche des thèses et mémoires<br>
